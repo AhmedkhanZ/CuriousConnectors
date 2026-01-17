@@ -51,25 +51,26 @@ app.post('/signup',async (req, res)=>{
 })
 
 // Feed_API -> to get all the users data
-// app.get('/feed',async (req, res)=>{
+app.get('/user',async (req, res)=>{
 
-//     let userEmailId = req.body.emailId
+    let userEmailId = req.body.emailId
 
-//     try{
-//         const user = await User.findOne({emailId: userEmailId })
-//         console.log(user);
-//         if(!user)
-//         {
-//             res.send("users with this emailid don't EXIST, check it once bro!!!😥😥")
-//         }
-//         res.send(user);
-//     }
-//     catch(err)
-//     {
-//         res.status(404).send("Something went wrong bro!!!😥😥")
-//     }
-// })
+    try{
+        const user = await User.findOne({emailId: userEmailId })
+        console.log(user);
+        if(!user)
+        {
+            res.send("users with this emailid don't EXIST, check it once bro!!!😥😥")
+        }
+        res.send(user);
+    }
+    catch(err)
+    {
+        res.status(404).send("Something went wrong bro!!!😥😥")
+    }
+})
 
+// Feed_API -> to get all the users data
 app.get('/feed',async (req, res)=>{
 
     try{
@@ -84,6 +85,38 @@ app.get('/feed',async (req, res)=>{
     catch(err)
     {
         res.status(404).send("Something went wrong bro!!!😥😥")
+    }
+})
+
+// Create delete_api 
+app.delete("/user",async(req, res) => {
+    let userId = req.body.userId;
+    try{
+        // const user = await User.findByIdAndDelete({_id:userId});
+        // below is the shorthand for above statement/Line
+         await User.findByIdAndDelete(userId);
+        res.send("User Deleted Successfully 👌👌😘❤️");
+        console.log("del kardiya bhaiii");
+    }
+    catch(err)
+    {
+        res.status(404).send("you did mistake a bro😥😥");
+    }
+})
+
+app.patch("/user",async(req, res) => {
+    const userId = req.body.userId;
+    const userData = req.body;
+    try
+    {
+      const user = await User.findByIdAndUpdate({_id:userId}, userData);
+    //   const user = await User.findByIdAndUpdate({_id:userId}, userData,{returnDeocument:"Before"});
+      console.log(user);
+      res.send("You made it bro ❤️😎");
+    }
+    catch(err)
+    {
+               res.status(404).send("Galath Hogaya BHaiiii");
     }
 })
 
